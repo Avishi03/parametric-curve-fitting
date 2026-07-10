@@ -28,6 +28,19 @@ def _refit_local(x, y, init):
     return least_squares(residuals, init, args=(x, y), bounds=(lb, ub), method="trf")
 
 
+def l1_score(x, y, params):
+    """Mean L1 distance between each data point and the predicted curve.
+
+    Each point's recovered t is its un-rotated u; the predicted point is
+    forward(u). This mirrors the assignment's L1 scoring metric.
+    """
+    theta, M, X = params["theta_rad"], params["M"], params["X"]
+    u, _ = unrotate(x, y, theta, X)
+    xp, yp = forward(u, theta, M, X)
+    l1 = np.abs(xp - x) + np.abs(yp - y)
+    return float(l1.mean()), float(l1.max())
+
+
 def analytic_errors(res):
     """Standard errors from the least-squares covariance sigma^2 (J^T J)^-1.
 
@@ -112,6 +125,11 @@ def main():
     print("  M     = %.6f  +/- %.2e" % (p["M"], se["M"]))
     print("  X     = %.4f  +/- %.2e" % (p["X"], se["X"]))
     print("  residual sigma = %.3e  (data is essentially exact)" % se["sigma_resid"])
+
+    l1_mean, l1_max = l1_score(x, y, p)
+    print("L1 score (assignment metric)")
+    print("  mean L1 = %.3e   max L1 = %.3e  (data vs predicted curve)"
+          % (l1_mean, l1_max))
 
     # --- Identifiability figure: cost vs theta -------------------------------
     th_deg, costs = theta_profile(x, y)

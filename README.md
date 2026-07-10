@@ -5,6 +5,26 @@
 > Flam AI / R&D Assignment — estimating the unknown parameters of a rotated,
 > exponentially-modulated spiral from a cloud of `(x, y)` points.
 
+## Submission — recovered unknowns
+
+| Parameter | Value |
+|-----------|-------|
+| θ | 30° = **0.523599 rad** |
+| M | **0.030000** |
+| X | **55.0000** |
+
+Submission string in the required Desmos parametric-LaTeX format (paste into
+[desmos.com/calculator/rfj91yrxob](https://www.desmos.com/calculator/rfj91yrxob),
+domain `6 ≤ t ≤ 60`):
+
+```
+\left(t*\cos(0.523599)-e^{0.03\left|t\right|}\cdot\sin(0.3t)\sin(0.523599)+55,\ 42+t*\sin(0.523599)+e^{0.03\left|t\right|}\cdot\sin(0.3t)\cos(0.523599)\right)
+```
+
+Pasting this over the given data reproduces the curve exactly: the mean L1
+distance between the data points and this predicted curve is **≈ 3.5 × 10⁻⁶**
+(max ≈ 2.4 × 10⁻⁵) — effectively zero.
+
 ## Problem
 
 Given a list of points that lie on the curve below (for `6 < t < 60`), recover
