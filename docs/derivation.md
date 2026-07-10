@@ -48,6 +48,16 @@ That matrix is exactly a **2-D rotation by θ**. So the whole dataset is nothing
 more than the simple curve `(u, v) = (t,  e^(M·|t|)·sin(0.3t))` **rotated by θ
 and shifted by `(X, 42)`**.
 
+**A geometric shortcut for θ.** Because `u = t` grows steadily from 6 to 60 while
+`v` only oscillates, the curve has a clear *spine* pointing in the θ direction.
+That means θ is essentially the **dominant direction of the point cloud** — the
+first principal axis (PCA) of the centred data. On this dataset that gives
+**≈ 28.5°** with no optimization at all, close to the true 30°. It is slightly
+biased low because the exponentially growing `v`-oscillation pulls the axis, so
+we don't use it as the final answer — but it confirms the rotation picture, gives
+a solid starting guess for the solver, and shows the answer is geometrically
+"obvious" rather than a numerical fluke. (`theta_from_pca` in `src/analysis.py`.)
+
 ## 4. Un-rotating the data
 
 A rotation is trivially invertible (its inverse is rotation by `−θ`). Given a

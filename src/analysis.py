@@ -28,6 +28,19 @@ def _refit_local(x, y, init):
     return least_squares(residuals, init, args=(x, y), bounds=(lb, ub), method="trf")
 
 
+def theta_from_pca(x, y):
+    """Estimate theta from geometry alone, with no optimization.
+
+    The curve runs along a 'spine' in the theta direction (u = t grows linearly
+    while v only oscillates), so the dominant principal axis of the centred
+    point cloud points along theta. Gives theta to a degree or two instantly.
+    """
+    P = np.c_[x - np.mean(x), y - np.mean(y)]
+    _, V = np.linalg.eigh(P.T @ P)
+    pc1 = V[:, -1]                      # eigenvector of the largest eigenvalue
+    return float(np.degrees(np.arctan2(pc1[1], pc1[0])) % 180.0)
+
+
 def l1_score(x, y, params):
     """Mean L1 distance between each data point and the predicted curve.
 
@@ -119,6 +132,10 @@ def main():
     p = fit(x, y)
     res = _refit_local(x, y, [p["theta_rad"], p["M"], p["X"]])
     se = analytic_errors(res)
+
+    print("Geometry sanity check (no optimization)")
+    print("  theta from PCA principal axis = %.2f deg  (fitted: %.2f)"
+          % (theta_from_pca(x, y), p["theta_deg"]))
 
     print("Recovered parameters with 1-sigma analytic error bars")
     print("  theta = %.4f  +/- %.2e  deg" % (p["theta_deg"], se["theta_deg"]))
