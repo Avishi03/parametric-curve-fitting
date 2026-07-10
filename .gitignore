@@ -11,6 +11,10 @@ env/
 .scratch/
 *.log
 
+# Local tooling / pip cache (not part of the deliverable)
+.claude/
+.pipcache/
+
 # OS
 Thumbs.db
 .DS_Store
