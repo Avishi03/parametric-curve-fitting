@@ -115,3 +115,35 @@ Running this procedure on the provided dataset yields, to machine precision:
 
 with an RMS residual of ~3.5 × 10⁻⁶ and a recovered `t`-range of `[6.05, 59.99]`
 — exactly inside the stated `6 < t < 60`, confirming the fit.
+
+## 8. How trustworthy is the estimate?
+
+A single point estimate is not a finished answer. Three further questions
+matter, addressed in `src/analysis.py`.
+
+**Precision.** At the optimum the solver's Jacobian `J` gives the parameter
+covariance directly, `Σ = σ²·(JᵀJ)⁻¹` with `σ² = Σrᵢ²/(N−3)`. On this
+essentially-exact data the 1σ error bars are ~10⁻⁶ — the parameters are pinned
+down to the precision of the data itself.
+
+**Uniqueness (identifiability).** The `sin(0.3t)` factor makes the cost surface
+non-convex in θ, so we should prove the minimum we found is the *only* deep one.
+Scanning θ across its whole range (letting M, X adapt at each θ) yields a single
+sharp global minimum at 30° — see `assets/identifiability.png`. That is why
+multistart is necessary and why the recovered answer is the true global optimum,
+not a local trap.
+
+**Robustness.** Injecting Gaussian noise of size σ into `(x, y)` and refitting
+many times shows the recovered parameters scatter *linearly* with σ and with no
+bias (`assets/robustness.png`). The method degrades gracefully; it is not
+overfit to this particular clean dataset.
+
+**A note on the residual.** We minimise the vertical residual
+`rᵢ = vᵢ − e^(M·uᵢ)sin(0.3uᵢ)`, not the true geometric distance to the curve,
+and this residual is **heteroscedastic**: because the `e^(M·t)` factor amplifies
+the signal at large `t`, the residual magnitude grows with `t` (visible in
+`assets/residuals.png`). The statistically optimal estimator would down-weight
+large-`t` points, e.g. weighted least squares with `wᵢ = e^(−M·uᵢ)`. Here it
+makes no practical difference — the fit is already accurate to ~10⁻⁶ — but the
+principled version is a one-line change to the residual and worth stating
+explicitly.
