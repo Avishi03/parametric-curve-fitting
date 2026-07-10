@@ -53,6 +53,25 @@ growth with `t` is expected: the `e^(M·t)` factor amplifies the signal at large
 
 See [docs/derivation.md](docs/derivation.md) for the full method.
 
+### How trustworthy is it?
+
+A point estimate isn't a finished answer — `src/analysis.py` also reports how
+precise, how unique, and how robust it is (`python -m src.analysis`).
+
+**Precision.** 1σ error bars from the fit's Jacobian covariance are ~10⁻⁶ on this
+essentially-exact data — the parameters are pinned to the data's own precision.
+
+**Uniqueness.** Scanning θ across its whole range gives a single sharp global
+minimum at 30°, so the answer is the true global optimum, not a local trap:
+
+![Identifiability](assets/identifiability.png)
+
+**Robustness.** Injecting `(x, y)` noise and refitting shows the recovered
+parameters scatter linearly with the noise and without bias — the method is not
+overfit to this one clean dataset:
+
+![Robustness](assets/robustness.png)
+
 ## Repository layout
 
 ```
