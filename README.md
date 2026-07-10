@@ -24,7 +24,34 @@ y = 42 + t·sin(θ) + e^(M·|t|)·sin(0.3t)·cos(θ)
 
 ## Results
 
-_To be filled in as the solution is built (see commit history)._
+Running the fit on the provided 1500-point dataset recovers clean, round
+parameters:
+
+| Parameter | Recovered value |
+|-----------|-----------------|
+| θ | 30.0000° (0.523599 rad) |
+| M | 0.030000 |
+| X | 55.0000 |
+
+with an **RMS residual of ~3.5 × 10⁻⁶** and a recovered `t`-range of
+`[6.05, 60.00]` — cleanly inside the stated `6 < t < 60`. Because that range was
+never used during fitting, it is independent evidence that this is the true
+solution and not a spurious local minimum.
+
+**Fit overlay** — the recovered curve drawn on top of the data points:
+
+![Fit overlay](assets/fit_overlay.png)
+
+**Residuals** — per-point error vs recovered `t`, on the order of 10⁻⁶ (the mild
+growth with `t` is expected: the `e^(M·t)` factor amplifies the signal at large `t`):
+
+![Residuals](assets/residuals.png)
+
+**Recovered `t`** — every recovered `t` lands inside the stated `[6, 60]` window:
+
+![Recovered t](assets/recovered_t.png)
+
+See [docs/derivation.md](docs/derivation.md) for the full method.
 
 ## Repository layout
 
@@ -47,8 +74,30 @@ pip install -r requirements.txt
 
 ## Usage
 
-_To be documented._
+Recover the parameters from the provided data:
 
----
+```bash
+python main.py
+```
 
-_Work in progress — this README evolves alongside the commit history._
+```
+Recovered parameters
+  theta = 30.0000 deg  (0.523599 rad)
+  M     = 0.030000
+  X     = 55.0000
+Fit quality
+  RMS residual = 3.490e-06
+  recovered t  = [6.05, 60.00]  (stated: 6 < t < 60)
+```
+
+Regenerate the plots in `assets/` as well:
+
+```bash
+python main.py --plots
+```
+
+Or run the fit on a different point cloud:
+
+```bash
+python main.py --data path/to/points.csv
+```
