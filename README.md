@@ -1,5 +1,7 @@
 # Parametric Curve Fitting — Recovering θ, M, X
 
+[![tests](https://github.com/Avishi03/parametric-curve-fitting/actions/workflows/ci.yml/badge.svg)](https://github.com/Avishi03/parametric-curve-fitting/actions/workflows/ci.yml)
+
 > Flam AI / R&D Assignment — estimating the unknown parameters of a rotated,
 > exponentially-modulated spiral from a cloud of `(x, y)` points.
 
