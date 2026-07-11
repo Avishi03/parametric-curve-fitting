@@ -25,6 +25,8 @@ Pasting this over the given data reproduces the curve exactly: the mean L1
 distance between the data points and this predicted curve is **≈ 3.5 × 10⁻⁶**
 (max ≈ 2.4 × 10⁻⁵) — effectively zero.
 
+LINK FOR DESMOS FOR THIS EQUATION (https://www.desmos.com/calculator/bj11ra8h3l)
+
 ## Problem
 
 Given a list of points that lie on the curve below (for `6 < t < 60`), recover
