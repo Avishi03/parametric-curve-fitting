@@ -10,6 +10,7 @@ env/
 # Local scratch / experiments (not part of the deliverable)
 .scratch/
 *.log
+.pipcache/
 
 # OS
 Thumbs.db

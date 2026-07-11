@@ -14,7 +14,7 @@
 | X | **55.0000** |
 
 Submission string in the required Desmos parametric-LaTeX format (paste into
-[desmos.com/calculator/rfj91yrxob](https://www.desmos.com/calculator/rfj91yrxob),
+[desmos.com/calculator/qrvxyuiajx](https://www.desmos.com/calculator/qrvxyuiajx),
 domain `6 ≤ t ≤ 60`):
 
 ```
@@ -76,6 +76,8 @@ growth with `t` is expected: the `e^(M·t)` factor amplifies the signal at large
 ![Recovered t](assets/recovered_t.png)
 
 See [docs/derivation.md](docs/derivation.md) for the full method.
+
+**Walkthrough video** — a short demo of the approach and result: [project-demo.mp4](project-demo.mp4).
 
 ### How trustworthy is it?
 
